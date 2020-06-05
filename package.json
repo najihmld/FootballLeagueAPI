@@ -4,6 +4,9 @@
   "main": "index.js",
   "repository": "https://github.com/najihmld/FootballLeagueApi.git",
   "author": "Najih Mld <najihmaulida@gmail.com>",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
