@@ -6,11 +6,6 @@ module.exports = {
       connection.query(
         'INSERT INTO recordgame SET ?', setData, (err, result) => {
           if(!err) {
-            const newResult = {
-              id: result.insertId,
-              ...setData
-            }
-
             const score = setData.score
             const newScore = score.split(':')
 
@@ -43,7 +38,7 @@ module.exports = {
                         const newPoints = Number(result[0].points) + clubAway.points
                         connection.query(`UPDATE leaguestanding SET points='${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
                           if(!err) {
-                            resolve(newResult)
+                            resolve(setData)
                           } else{
                             reject(new Error(errr))
                           }
@@ -52,7 +47,7 @@ module.exports = {
                         connection.query(
                           'INSERT INTO leaguestanding SET ?', clubAway, (err, result) => {
                             if(!err) {
-                              resolve(newResult)
+                              resolve(setData)
                             } else {
                               reject(new Error(err))
                             }
@@ -60,8 +55,6 @@ module.exports = {
                         )
                       }
                     })
-
-
                   } else{
                     reject(new Error(errr))
                   }
@@ -75,7 +68,7 @@ module.exports = {
                           const newPoints = Number(result[0].points) + clubAway.points
                           connection.query(`UPDATE leaguestanding SET points='${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
                             if(!err) {
-                              resolve(newResult)
+                              resolve(setData)
                             } else{
                               reject(new Error(errr))
                             }
@@ -84,7 +77,7 @@ module.exports = {
                           connection.query(
                             'INSERT INTO leaguestanding SET ?', clubAway, (err, result) => {
                               if(!err) {
-                                resolve(newResult)
+                                resolve(setData)
                               } else {
                                 reject(new Error(err))
                               }
@@ -99,7 +92,6 @@ module.exports = {
                 )
               }
             })
-
            
           } else {
             reject(new Error(err))
