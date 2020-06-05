@@ -38,7 +38,15 @@ module.exports = {
                         const newPoints = Number(result[0].points) + clubAway.points
                         connection.query(`UPDATE leaguestanding SET points='${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
                           if(!err) {
-                            resolve(setData)
+                            // resolve(setData)
+                            connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                              if(!err) {
+                                result.map((item, index) => {
+                                  connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                })
+                                resolve(result)
+                              }
+                            })
                           } else{
                             reject(new Error(errr))
                           }
@@ -47,7 +55,15 @@ module.exports = {
                         connection.query(
                           'INSERT INTO leaguestanding SET ?', clubAway, (err, result) => {
                             if(!err) {
-                              resolve(setData)
+                              // resolve(setData)
+                              connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                                if(!err) {
+                                  result.map((item, index) => {
+                                    connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                  })
+                                  resolve(result)
+                                }
+                              })
                             } else {
                               reject(new Error(err))
                             }
@@ -68,7 +84,15 @@ module.exports = {
                           const newPoints = Number(result[0].points) + clubAway.points
                           connection.query(`UPDATE leaguestanding SET points='${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
                             if(!err) {
-                              resolve(setData)
+                              // resolve(setData)
+                              connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                                if(!err) {
+                                  result.map((item, index) => {
+                                    connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                  })
+                                  resolve(result)
+                                }
+                              })
                             } else{
                               reject(new Error(errr))
                             }
@@ -77,7 +101,15 @@ module.exports = {
                           connection.query(
                             'INSERT INTO leaguestanding SET ?', clubAway, (err, result) => {
                               if(!err) {
-                                resolve(setData)
+                                // resolve(setData)
+                                connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                                  if(!err) {
+                                    result.map((item, index) => {
+                                      connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                    })
+                                    resolve(result)
+                                  }
+                                })
                               } else {
                                 reject(new Error(err))
                               }
