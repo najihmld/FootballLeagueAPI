@@ -5,3 +5,13 @@ cd FootballLeagueAPI
 yarn install
 yarn start
 ```
+
+# API
+```graphql
+# RecordGame
+http://localhost:3002/recordgame
+Example
+ 	- clubhomename : Chelsea
+ 	- clubawayname : Man Utd
+ 	- score : '1 : 2'
+```
