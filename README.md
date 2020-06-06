@@ -7,7 +7,7 @@ yarn start
 ```
 
 # API
-<h2>RecordGame</h2>
+<h2>RecordGame</h2></br>
 ```
 http://localhost:3002/recordgame
 #Example
