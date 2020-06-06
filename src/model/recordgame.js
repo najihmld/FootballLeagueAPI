@@ -28,21 +28,26 @@ module.exports = {
               points: point(newScore[1], newScore[0])
             }
 
-            connection.query(`SELECT * FROM leaguestanding WHERE clubname LIKE '%${clubHome.clubname}%'`, (err, result) => {
+            let selectClubname = 'SELECT * FROM leaguestanding WHERE clubname LIKE '
+            let postLeaguestanding = 'INSERT INTO leaguestanding SET ?'
+            let updatePoints = 'UPDATE leaguestanding SET points='
+            let getStanding = 'SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding'
+            let updateStanding = 'UPDATE leaguestanding SET standing='
+            
+            connection.query(selectClubname+`'%${clubHome.clubname}%'`, (err, result) => {
               if(result.length === 1) {
                 const newPoints = Number(result[0].points) + clubHome.points
-                connection.query(`UPDATE leaguestanding SET points='${newPoints}' WHERE clubname='${clubHome.clubname}'`, (err, result) => {
+                connection.query(updatePoints+`'${newPoints}' WHERE clubname='${clubHome.clubname}'`, (err, result) => {
                   if(!err) {
-                    connection.query(`SELECT * FROM leaguestanding WHERE clubname LIKE '%${clubAway.clubname}%'`, (err, result) => {
+                    connection.query(selectClubname+`'%${clubAway.clubname}%'`, (err, result) => {
                       if(result.length === 1) {
                         const newPoints = Number(result[0].points) + clubAway.points
-                        connection.query(`UPDATE leaguestanding SET points='${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
+                        connection.query(updatePoints+`'${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
                           if(!err) {
-                            // resolve(setData)
-                            connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                            connection.query(getStanding, (err, result) => {
                               if(!err) {
                                 result.map((item, index) => {
-                                  connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                  connection.query(updateStanding+`${item.standing} WHERE clubname='${item.clubname}'`)
                                 })
                                 resolve(result)
                               }
@@ -52,14 +57,12 @@ module.exports = {
                           }
                         })
                       } else {
-                        connection.query(
-                          'INSERT INTO leaguestanding SET ?', clubAway, (err, result) => {
+                        connection.query(postLeaguestanding, clubAway, (err, result) => {
                             if(!err) {
-                              // resolve(setData)
-                              connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                              connection.query(getStanding, (err, result) => {
                                 if(!err) {
                                   result.map((item, index) => {
-                                    connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                    connection.query(updateStanding+`${item.standing} WHERE clubname='${item.clubname}'`)
                                   })
                                   resolve(result)
                                 }
@@ -76,19 +79,17 @@ module.exports = {
                   }
                 })
               } else {
-                connection.query(
-                  'INSERT INTO leaguestanding SET ?', clubHome, (err, result) => {
+                connection.query(postLeaguestanding, clubHome, (err, result) => {
                     if(!err) {
-                      connection.query(`SELECT * FROM leaguestanding WHERE clubname LIKE '%${clubAway.clubname}%'`, (err, result) => {
+                      connection.query(selectClubname+`'%${clubAway.clubname}%'`, (err, result) => {
                         if(result.length === 1) {
                           const newPoints = Number(result[0].points) + clubAway.points
-                          connection.query(`UPDATE leaguestanding SET points='${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
+                          connection.query(updatePoints+`'${newPoints}' WHERE clubname='${clubAway.clubname}'`, (err, result) => {
                             if(!err) {
-                              // resolve(setData)
-                              connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                              connection.query(getStanding, (err, result) => {
                                 if(!err) {
                                   result.map((item, index) => {
-                                    connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                    connection.query(updateStanding+`${item.standing} WHERE clubname='${item.clubname}'`)
                                   })
                                   resolve(result)
                                 }
@@ -98,14 +99,12 @@ module.exports = {
                             }
                           })
                         } else {
-                          connection.query(
-                            'INSERT INTO leaguestanding SET ?', clubAway, (err, result) => {
+                          connection.query(postLeaguestanding, clubAway, (err, result) => {
                               if(!err) {
-                                // resolve(setData)
-                                connection.query('SELECT clubname, points, RANK() OVER (ORDER BY points DESC) AS standing FROM leaguestanding', (err, result) => {
+                                connection.query(getStanding, (err, result) => {
                                   if(!err) {
                                     result.map((item, index) => {
-                                      connection.query(`UPDATE leaguestanding SET standing=${item.standing} WHERE clubname='${item.clubname}'`)
+                                      connection.query(updateStanding+`${item.standing} WHERE clubname='${item.clubname}'`)
                                     })
                                     resolve(result)
                                   }
