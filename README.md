@@ -7,10 +7,11 @@ yarn start
 ```
 
 # API
+<h2>RecordGame</h2>
 ```
 http://localhost:3002/recordgame
 #Example
  	- clubhomename : Chelsea
  	- clubawayname : Man Utd
- 	- score : '1 : 2'
+ 	- score : '1:2'
 ```
