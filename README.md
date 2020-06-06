@@ -11,9 +11,9 @@ yarn start
 ```
 POST: http://localhost:3002/recordgame
 #Example body parameter
- 	- clubhomename : Chelsea
- 	- clubawayname : Man Utd
- 	- score : '1:2'
+ 	- clubhomename: Chelsea
+ 	- clubawayname: Man Utd
+ 	- score: 1:2
 ```
 
 ## 2. AllLeagueStandings
